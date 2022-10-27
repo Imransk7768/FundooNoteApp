@@ -46,5 +46,30 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public string Login(UserLoginModel userLoginModel)
+        {
+            try
+            {
+                var resultLog = fundooContext.Usertable.Where(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password).FirstOrDefault();
+
+                if (resultLog != null)
+                {
+                    //userLoginModel.Email = resultLog.Email;
+                    //userLoginModel.Password = resultLog.Password;
+                    var token = GenerateSecurityToken(resultLog.Email, resultLog.UserId);
+                    return token;
+
+                    //return userLoginModel;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
