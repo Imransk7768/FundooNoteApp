@@ -45,16 +45,16 @@ namespace FundooApp.Controllers
             try
             {
                 var resultLog = iuserBL.Login(userLoginModel);
-                if (resultLog != null)
+                if(resultLog != null)
                 {
-                    return Ok(new { success = true, message = "Login Successful", data = resultLog });
+                    return Ok(new {success=true, message="Login Successful",data=resultLog});
                 }
                 else
                 {
                     return BadRequest(new { sucess = false, message = "Lagin Failed" });
                 }
             }
-            catch (System.Exception)
+            catch(System.Exception)
             {
                 throw;
             }

@@ -8,7 +8,6 @@ namespace RepositoryLayer.Entity
 {
     public class UserEntity
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long UserId { get; set; }

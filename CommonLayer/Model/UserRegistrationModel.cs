@@ -12,4 +12,5 @@ namespace CommonLayer.Model
 
         public string Password { get; set; }
     }
+    
 }

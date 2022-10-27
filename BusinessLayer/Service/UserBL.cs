@@ -22,7 +22,7 @@ namespace BusinessLayer.Service
             {
                 return iuserRL.Registration(userRegistrationModel);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw;
             }
