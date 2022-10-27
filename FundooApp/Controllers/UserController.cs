@@ -61,5 +61,29 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("ForgetPassword")]
+        public IActionResult ForgetPassword(string email)
+        {
+            try
+            {
+                var resultLog = iuserBL.ForgetPassword(email);
+                if (resultLog != null)
+                {
+                    return Ok(new { success = true, message = "Reset Email link Send" });
+                }
+                else
+                {
+                    return BadRequest(new { sucess = false, message = "Reset Failed" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        
     }
 }
