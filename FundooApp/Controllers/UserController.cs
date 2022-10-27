@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FundooApp.Controllers
 {

@@ -28,7 +28,6 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                //UserEntity userEntity = new UserEntity();
                 userEntity.FirstName = userRegistrationModel.FirstName;
                 userEntity.LastName = userRegistrationModel.LastName;
                 userEntity.Email = userRegistrationModel.Email;
@@ -97,5 +96,6 @@ namespace RepositoryLayer.Service
             return tokenHandler.WriteToken(token);
 
         }
+        
     }
 }
