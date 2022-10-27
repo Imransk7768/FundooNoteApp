@@ -84,6 +84,29 @@ namespace FundooApp.Controllers
             }
         }
 
-        
+        [Authorize]
+        [HttpPut]
+        [Route("ResetPassword")]
+        public IActionResult ResetPassword(string newPassword, string confirmPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var resultLog = iuserBL.ResetPassword(email, newPassword, confirmPassword);
+                if(resultLog != null)
+                {
+                    return Ok(new{ success = true,message="Reset Sucessful" , data=resultLog});
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Reset failed"});
+
+                }
+            }
+            catch(System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

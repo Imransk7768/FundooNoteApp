@@ -118,6 +118,26 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        
+        public UserEntity ResetPassword(string email, string newPassword, string confirmPassword)
+        {
+            try
+            {
+                if(newPassword== confirmPassword)
+                {
+                    var user = fundooContext.Usertable.FirstOrDefault(x=>x.Email == email);
+                    user.Password = newPassword;
+                    fundooContext.SaveChanges();
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

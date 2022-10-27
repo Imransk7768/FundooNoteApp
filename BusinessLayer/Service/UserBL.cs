@@ -49,6 +49,16 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        
+        public UserEntity ResetPassword(string email, string newPassword, string confirmPassword)
+        {
+            try
+            {
+                return iuserRL.ResetPassword(email, newPassword, confirmPassword);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
