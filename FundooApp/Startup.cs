@@ -41,6 +41,9 @@ namespace FundooApp
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
 
+            services.AddTransient<INotesBL, NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
+
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
@@ -117,7 +120,8 @@ namespace FundooApp
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
             });
 
