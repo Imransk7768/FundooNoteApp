@@ -10,6 +10,6 @@ namespace BusinessLayer.Interface
     public interface INotesBL
     {
         public NotesEntity CreateNotes(NotesModel notesModel, long userId);
-
+        public IEnumerable<NotesEntity> RetrieveNotes(long userId);
     }
 }
