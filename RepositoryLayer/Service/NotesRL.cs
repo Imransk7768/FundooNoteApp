@@ -57,5 +57,18 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<NotesEntity> RetrieveNotes(long userId)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
