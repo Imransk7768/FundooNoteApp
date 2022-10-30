@@ -50,12 +50,12 @@ namespace FundooApp.Controllers
         [HttpGet]
         [Route("Retrieve")]
 
-        public IActionResult RetrieveNotes()
+        public IActionResult RetrieveNotes(long notesId)
         {
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                var result = inotesBL.RetrieveNotes(userId);
+                var result = inotesBL.RetrieveNotes(userId, notesId);
                 if (result != null)
                 {
 
@@ -72,5 +72,30 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpPut]
+        [Route("Update")]
+        public ActionResult UpdateNote(NotesModel notesModel, long notesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = inotesBL.NotesUpdate(notesModel, userId, notesId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Note Updated Successfull", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Update Note Failed" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        
     }
 }
