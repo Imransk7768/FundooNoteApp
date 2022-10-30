@@ -58,11 +58,11 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public IEnumerable<NotesEntity> RetrieveNotes(long userId)
+        public IEnumerable<NotesEntity> RetrieveNotes(long userId, long noteId)
         {
             try
             {
-                var result = fundooContext.NotesTable.Where(x => x.UserId == userId);
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteId == noteId);
                 return result;
             }
             catch (Exception ex)
@@ -70,5 +70,32 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public NotesEntity NotesUpdate(NotesModel notesModel, long userId, long noteId)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteId == noteId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Title = notesModel.Title;
+                    result.Description = notesModel.Description;
+                    result.Remainder = notesModel.Remainder;
+                    result.Color = notesModel.Color;
+                    result.Image = notesModel.Image;
+                    result.Edited = DateTime.Now;
+                    fundooContext.SaveChanges();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        
     }
 }
