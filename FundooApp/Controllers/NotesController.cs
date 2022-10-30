@@ -132,7 +132,7 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Note Archieved Successfull " });
+                    return Ok(new { success = true, message = "Note Archieved Successfull ", data = result });
                 }
                 else
                 {
@@ -142,6 +142,32 @@ namespace FundooApp.Controllers
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("Pin")]
+        public IActionResult PinNote(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = inotesBL.PinNote(noteId);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Note Pinned Successfull", data = result});
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Pinning Note Failed" });
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
             }
         }
     }
