@@ -120,5 +120,29 @@ namespace FundooApp.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut]
+        [Route("Archieve")]
+        public IActionResult ArchieveNote(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = inotesBL.ArchiveNote(noteId);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Note Archieved Successfull " });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Note Archieve Failed" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
