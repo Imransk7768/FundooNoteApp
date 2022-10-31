@@ -127,7 +127,7 @@ namespace RepositoryLayer.Service
                 {
                     result.Archive = true;
                 }
-                else
+                else if(result.Archive = true)
                 {
                     result.Archive = false;
                 }
@@ -153,6 +153,29 @@ namespace RepositoryLayer.Service
                 else if(result.Pin == true)
                 {
                     result.Pin = false;
+                }
+
+                fundooContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public bool TrashNote(long noteId)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteId == noteId);
+
+                if(result.Trash != true)
+                {
+                    result.Trash = true;
+                }
+                else if(result.Trash == true)
+                {
+                    result.Trash = false;
                 }
 
                 fundooContext.SaveChanges();
