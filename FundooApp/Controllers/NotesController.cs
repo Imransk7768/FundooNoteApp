@@ -221,6 +221,29 @@ namespace FundooApp.Controllers
             }
         }
 
-       
+        [Authorize]
+        [HttpPut]
+        [Route("BackgroundColor")]
+        public IActionResult BackgroundColor(long noteId, string backgroundColor)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = inotesBL.BackgroundColor(noteId, backgroundColor);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Color Changed Successfull", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Color Changed Failed", data = result });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
