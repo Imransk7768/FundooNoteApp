@@ -227,6 +227,21 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-       
+        public string BackgroundColor(long noteId, string backgroundColor)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.FirstOrDefault(x => x.NoteId == noteId);
+                result.Color = backgroundColor;
+                fundooContext.NotesTable.Update(result);
+                fundooContext.SaveChanges();
+                return "BackgroundColor Change Successfull";
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

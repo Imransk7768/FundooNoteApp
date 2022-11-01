@@ -19,6 +19,8 @@ namespace RepositoryLayer.Interface
         public bool PinNote(long noteId);
         public bool TrashNote(long noteId);
         public string ImageUpload(IFormFile image, long noteId, long userId);
+        public string BackgroundColor(long noteId, string backgroundColor);
+
 
     }
 }
