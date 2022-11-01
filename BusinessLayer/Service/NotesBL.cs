@@ -1,5 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
@@ -95,5 +97,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public string ImageUpload(IFormFile image, long noteId, long userId)
+        {
+            try
+            {
+                return inotesRL.ImageUpload(image, noteId, userId);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        
     }
 }

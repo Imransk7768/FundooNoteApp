@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
@@ -17,5 +18,7 @@ namespace BusinessLayer.Interface
         public bool ArchiveNote(long noteId);
         public bool PinNote(long noteId);
         public bool TrashNote(long noteId);
+        public string ImageUpload(IFormFile image, long noteId, long userId);
+
     }
 }
