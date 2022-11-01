@@ -195,5 +195,32 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpPut]
+        [Route("ImageUpload")]
+        public IActionResult ImageUpload(IFormFile image, long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+
+                var result = inotesBL.ImageUpload(image, noteId, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Image Uploaded", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Image Upload Failed" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+       
     }
 }
