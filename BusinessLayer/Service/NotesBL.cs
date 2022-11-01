@@ -108,6 +108,16 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        
+        public string BackgroundColor(long noteId, string backgroundColor)
+        {
+            try
+            {
+                return inotesRL.BackgroundColor(noteId, backgroundColor);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
