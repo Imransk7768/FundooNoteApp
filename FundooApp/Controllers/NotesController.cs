@@ -2,7 +2,10 @@
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
@@ -195,6 +198,7 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+
 
         [Authorize]
         [HttpPut]

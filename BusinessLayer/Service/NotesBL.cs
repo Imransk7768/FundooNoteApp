@@ -1,7 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Http;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
@@ -119,5 +119,6 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
     }
 }

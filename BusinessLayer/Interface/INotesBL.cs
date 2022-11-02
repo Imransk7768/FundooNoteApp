@@ -1,5 +1,6 @@
 ﻿using CommonLayer.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
