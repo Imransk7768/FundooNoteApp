@@ -14,6 +14,7 @@ namespace BusinessLayer.Service
         {
             this.icollabRL = icollabRL;
         }
+
         public CollabEntity CreateCollab(long notesId, string email)
         {
             try
@@ -36,11 +37,11 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        public bool DeleteCollab(long collabId, long userId)
+        public bool RemoveCollab(long collabId, long userId)
         {
             try
             {
-                return icollabRL.DeleteCollab(collabId, userId);
+                return icollabRL.RemoveCollab(collabId, userId);
             }
             catch (Exception ex)
             {
