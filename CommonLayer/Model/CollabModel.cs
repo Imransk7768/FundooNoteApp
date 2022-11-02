@@ -7,6 +7,5 @@ namespace CommonLayer.Model
     public class CollabModel
     {
         public string Email { get; set; }
-
     }
 }
