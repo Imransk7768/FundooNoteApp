@@ -49,5 +49,24 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public IEnumerable<CollabEntity> RetrieveCollab(long notesId, long userId)
+        {
+            try
+            {
+                var result = fundooContext.CollabTable.Where(x => x.NoteId == notesId);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
