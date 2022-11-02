@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
+using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RepositoryLayer.Service
@@ -17,6 +19,35 @@ namespace RepositoryLayer.Service
         {
             this.fundooContext = fundooContext;
             this.iconfiguration = iconfiguration;
+        }
+        public CollabEntity CreateCollab(long notesId, string email)
+        {
+            try
+            {
+                var resultNote = fundooContext.NotesTable.Where(x => x.NoteId == notesId).FirstOrDefault();
+                var resultEmail = fundooContext.Usertable.Where(x => x.Email == email).FirstOrDefault();
+
+                if (resultEmail != null && resultNote != null)
+                {
+                    CollabEntity collabEntity = new CollabEntity();
+
+                    collabEntity.Email = resultEmail.Email;
+                    collabEntity.NoteId = resultNote.NoteId;
+                    collabEntity.UserId = resultEmail.UserId;
+
+                    fundooContext.Add(collabEntity);
+                    fundooContext.SaveChanges();
+                    return collabEntity;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

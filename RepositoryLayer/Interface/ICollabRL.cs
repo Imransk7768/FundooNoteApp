@@ -1,10 +1,12 @@
-﻿using System;
+﻿using RepositoryLayer.Entity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RepositoryLayer.Interface
 {
-    internal interface ICollabRL
+    public interface ICollabRL
     {
+        public CollabEntity CreateCollab(long notesId, string email);
     }
 }
