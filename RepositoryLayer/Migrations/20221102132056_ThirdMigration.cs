@@ -48,6 +48,7 @@ namespace RepositoryLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CollabTable");
+
         }
     }
 }

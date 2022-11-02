@@ -10,7 +10,7 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20221102142929_FourthMigration")]
+    [Migration("20221102184212_FourthMigration")]
     partial class FourthMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,7 @@ namespace RepositoryLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LableTable");
+                    b.ToTable("LabelTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.NotesEntity", b =>

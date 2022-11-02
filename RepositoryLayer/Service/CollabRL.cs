@@ -68,7 +68,7 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        public bool DeleteCollab(long collabId, long noteId)
+        public bool RemoveCollab(long collabId, long noteId)
         {
             try
             {
