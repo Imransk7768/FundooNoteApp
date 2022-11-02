@@ -1,7 +1,11 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
@@ -17,11 +21,13 @@ namespace FundooApp.Controllers
         public CollabController(ICollabBL icollabBL)
         {
             this.icollabBL = icollabBL;
+
         }
 
         [Authorize]
         [HttpPost]
         [Route("Create")]
+
         public IActionResult CreateCollab(long notesId, string email)
         {
             try
@@ -31,18 +37,21 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
+
                     return Ok(new { success = true, message = "Creat Collaboration Success ", data = result });
                 }
                 else
                 {
                     return BadRequest(new { success = false, message = "Creating Collaboration Failed" });
                 }
+
             }
             catch (System.Exception)
             {
                 throw;
             }
         }
+
         [Authorize]
         [HttpGet]
         [Route("Retrieve")]
@@ -80,11 +89,11 @@ namespace FundooApp.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
 
-                var result = icollabBL.DeleteCollab(collabId, userId);
+                var result = icollabBL.RemoveCollab(collabId, userId);
 
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Collaborator Removed", data = result });
+                    return Ok(new { success = true, message = "Collaborator Removed", data=result });
                 }
                 else
                 {
