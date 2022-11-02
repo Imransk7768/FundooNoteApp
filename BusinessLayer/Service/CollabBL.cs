@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,17 @@ namespace BusinessLayer.Service
         public CollabBL(ICollabRL icollabRL)
         {
             this.icollabRL = icollabRL;
+        }
+        public CollabEntity CreateCollab(long notesId, string email)
+        {
+            try
+            {
+                return icollabRL.CreateCollab(notesId, email);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
