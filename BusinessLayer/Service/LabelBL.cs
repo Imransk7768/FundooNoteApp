@@ -49,5 +49,16 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public LabelEntity EditLabel(long noteId, string labelName)
+        {
+            try
+            {
+                return ilabelRL.EditLabel(noteId, labelName);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

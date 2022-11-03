@@ -71,7 +71,6 @@ namespace FundooApp.Controllers
         [Authorize]
         [HttpDelete]
         [Route("Delete")]
-
         public IActionResult DeleteLabel(long labelId)
         {
             try
@@ -80,11 +79,36 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Label Deleted Successfull ", data=result });
+                    return Ok(new { success = true, message = "Label Deleted Successfull ", data = result });
                 }
                 else
                 {
                     return BadRequest(new { success = false, message = "Label Delete Failed" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("Edit")]
+
+        public IActionResult EditLabel(long notesId, string labelName)
+        {
+            try
+            {
+                var result = ilabelBL.EditLabel(notesId, labelName);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Label Update Successfull", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Label update Failed" });
                 }
             }
             catch (System.Exception)

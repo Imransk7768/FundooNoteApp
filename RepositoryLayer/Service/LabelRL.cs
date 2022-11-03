@@ -75,12 +75,35 @@ namespace RepositoryLayer.Service
 
                 fundooContext.SaveChanges();
                 return true;
-
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
+        public LabelEntity EditLabel(long noteId, string labelName)
+        {
+            try
+            {
+                var result = fundooContext.LabelTable.FirstOrDefault(e => e.NoteId == noteId);
+
+                if (result != null)
+                {
+                    result.LabelName = labelName;
+
+                    fundooContext.SaveChanges();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }
