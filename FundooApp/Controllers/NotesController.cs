@@ -167,10 +167,9 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Pinning Note Failed" });
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw e;
+                throw;
             }
         }
 
@@ -219,7 +218,7 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Image Upload Failed" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
