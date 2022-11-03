@@ -23,15 +23,15 @@ namespace FundooApp.Controllers
     {
         private readonly INotesBL inotesBL;
         private readonly IMemoryCache memoryCache;
-        private readonly FundooContext fundoocontext;
+        private readonly FundooContext fundooContext;
         private readonly IDistributedCache distributedCache;
 
-        public NotesController(INotesBL inotesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundoocontext)
+        public NotesController(INotesBL inotesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.inotesBL = inotesBL;
             this.memoryCache = memoryCache;
             this.distributedCache=distributedCache;
-            this.fundoocontext=fundoocontext;
+            this.fundooContext=fundooContext;
         }
 
         [Authorize]
@@ -275,7 +275,7 @@ namespace FundooApp.Controllers
             }
             else
             {
-                notesList = fundoocontext.NotesTable.ToList();
+                notesList = fundooContext.NotesTable.ToList();
                 serializedNotesList = JsonConvert.SerializeObject(notesList);
                 redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
                 var options = new DistributedCacheEntryOptions()
