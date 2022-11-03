@@ -136,7 +136,7 @@ namespace FundooApp.Controllers
         public async Task<IActionResult> GetAllLabelUsingRedisCache()
         {
             long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-            var cacheKey = "NotesList";
+            var cacheKey = "LabelList";
             string serializedLabelList;
             var labelList = new List<LabelEntity>();
             var redisLabelList = await distributedCache.GetAsync(cacheKey);
