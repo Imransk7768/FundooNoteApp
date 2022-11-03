@@ -8,6 +8,12 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
+using RepositoryLayer.Context;
+using System.Threading.Tasks;
+using System.Text;
+using RepositoryLayer.Entity;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace FundooApp.Controllers
 {
@@ -16,9 +22,16 @@ namespace FundooApp.Controllers
     public class NotesController : ControllerBase
     {
         private readonly INotesBL inotesBL;
-        public NotesController(INotesBL inotesBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly FundooContext fundoocontext;
+        private readonly IDistributedCache distributedCache;
+
+        public NotesController(INotesBL inotesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundoocontext)
         {
             this.inotesBL = inotesBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache=distributedCache;
+            this.fundoocontext=fundoocontext;
         }
 
         [Authorize]
@@ -34,14 +47,12 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
-
                     return Ok(new { success = true, message = "Notes Created Successful ", data = result });
                 }
                 else
                 {
                     return BadRequest(new{success = false, message = "Notes Creation UnSuccessful" });
                 }
-
             }
             catch (System.Exception)
             {
@@ -61,7 +72,6 @@ namespace FundooApp.Controllers
                 var result = inotesBL.RetrieveNotes(userId, notesId);
                 if (result != null)
                 {
-
                     return Ok(new { success = true, message = "Retrieve data Successful ", data = result });
                 }
                 else
@@ -69,9 +79,8 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Retrieve data Failed" });
                 }
             }
-            catch (Exception)
+            catch (System.Exception)
             {
-
                 throw;
             }
         }
@@ -248,6 +257,33 @@ namespace FundooApp.Controllers
             {
                 throw;
             }
+        }
+
+        [Authorize]
+        [HttpGet("Redis")]
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+            var cacheKey = "NotesList";
+            string serializedNotesList;
+            var notesList = new List<NotesEntity>();
+            var redisNotesList = await distributedCache.GetAsync(cacheKey);
+            if (redisNotesList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisNotesList);
+                notesList = JsonConvert.DeserializeObject<List<NotesEntity>>(serializedNotesList);
+            }
+            else
+            {
+                notesList = fundoocontext.NotesTable.ToList();
+                serializedNotesList = JsonConvert.SerializeObject(notesList);
+                redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisNotesList, options);
+            }
+            return Ok(notesList);
         }
     }
 }
