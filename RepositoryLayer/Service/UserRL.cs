@@ -18,6 +18,7 @@ namespace RepositoryLayer.Service
         private readonly FundooContext fundooContext;
         //data of registered Dependency it
         private readonly IConfiguration iconfiguration;
+        public static string Key = "Imran*84";
         public UserRL(FundooContext fundooContext, IConfiguration iconfiguration)
         {
             this.fundooContext = fundooContext;
@@ -31,7 +32,7 @@ namespace RepositoryLayer.Service
                 userEntity.FirstName = userRegistrationModel.FirstName;
                 userEntity.LastName = userRegistrationModel.LastName;
                 userEntity.Email = userRegistrationModel.Email;
-                userEntity.Password= userRegistrationModel.Password;
+                userEntity.Password= Encrypt(userRegistrationModel.Password);
 
                 fundooContext.Usertable.Add(userEntity);
 
@@ -51,19 +52,61 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public static string Encrypt(string password)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(password))
+                {
+                    return "";
+                }
+                else
+                {
+                    password += Key;
+                    var passwordBytes = Encoding.UTF8.GetBytes(password);
+                    return Convert.ToBase64String(passwordBytes);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public static string Decrypt(string base64EncodeData)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(base64EncodeData))
+                {
+                    return "";
+                }
+                else
+                {
+                    var base64EncodeBytes = Convert.FromBase64String(base64EncodeData);
+                    var result = Encoding.UTF8.GetString(base64EncodeBytes);
+                    result = result.Substring(0, result.Length - Key.Length);
+                    return result;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
         public string Login(UserLoginModel userLoginModel)
         {
             try
             {
-                var resultLog = fundooContext.Usertable.Where(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password).FirstOrDefault();
-                
-                if(resultLog != null)
+                var resultLog = fundooContext.Usertable.Where(x => x.Email == userLoginModel.Email && x.Password == Encrypt(userLoginModel.Password)).FirstOrDefault();
+                //var decrptPassword = Decrypt(resultLog.Password);
+                if (resultLog != null && Decrypt(resultLog.Password) == userLoginModel.Password)
                 {
                     //userLoginModel.Email = resultLog.Email;
                     //userLoginModel.Password = resultLog.Password;
                     var token = GenerateSecurityToken(resultLog.Email, resultLog.UserId);
                     return token;
-
                     //return userLoginModel;
                 }
                 else
@@ -76,6 +119,7 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
         public string GenerateSecurityToken(string email,long UserId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -122,10 +166,10 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                if(newPassword== confirmPassword)
+                if(Encrypt(newPassword) == Encrypt(confirmPassword))
                 {
                     var user = fundooContext.Usertable.FirstOrDefault(x=>x.Email == email);
-                    user.Password = newPassword;
+                    user.Password = Encrypt(newPassword);
                     fundooContext.SaveChanges();
                     return user;
                 }

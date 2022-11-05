@@ -236,7 +236,7 @@ namespace FundooApp.Controllers
 
         [Authorize]
         [HttpPut]
-        [Route("BackgroundColor")]
+        [Route("Color")]
         public IActionResult BackgroundColor(long noteId, string backgroundColor)
         {
             try
