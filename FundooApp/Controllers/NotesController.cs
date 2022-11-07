@@ -14,6 +14,7 @@ using System.Text;
 using RepositoryLayer.Entity;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace FundooApp.Controllers
 {
@@ -25,13 +26,14 @@ namespace FundooApp.Controllers
         private readonly IMemoryCache memoryCache;
         private readonly FundooContext fundooContext;
         private readonly IDistributedCache distributedCache;
-
-        public NotesController(INotesBL inotesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext)
+        private readonly ILogger<NotesController> logger;
+        public NotesController(INotesBL inotesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext, ILogger<NotesController> logger)
         {
             this.inotesBL = inotesBL;
             this.memoryCache = memoryCache;
-            this.distributedCache=distributedCache;
-            this.fundooContext=fundooContext;
+            this.distributedCache = distributedCache;
+            this.fundooContext = fundooContext;
+            this.logger = logger;
         }
 
         [Authorize]
@@ -211,7 +213,7 @@ namespace FundooApp.Controllers
 
         [Authorize]
         [HttpPut]
-        [Route("ImageUpload")]
+        [Route("Image")]
         public IActionResult ImageUpload(IFormFile image, long noteId)
         {
             try

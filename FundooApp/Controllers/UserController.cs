@@ -3,6 +3,7 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace FundooApp.Controllers
@@ -12,9 +13,12 @@ namespace FundooApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserBL iuserBL;
-        public UserController(IUserBL iuserBL)
+        private readonly ILogger<NotesController> logger;
+
+        public UserController(IUserBL iuserBL, ILogger<NotesController> logger)
         {
             this.iuserBL = iuserBL;
+            this.logger = logger;
         }
 
         [HttpPost]

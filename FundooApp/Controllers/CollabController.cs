@@ -14,6 +14,7 @@ using RepositoryLayer.Entity;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace FundooApp.Controllers
 {
@@ -26,12 +27,14 @@ namespace FundooApp.Controllers
         private readonly FundooContext fundooContext;
         private readonly IDistributedCache distributedCache;
 
-        public CollabController(ICollabBL icollabBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext)
+        private readonly ILogger<NotesController> logger;
+        public CollabController(ICollabBL icollabBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext, ILogger<NotesController> logger)
         {
             this.icollabBL = icollabBL;
             this.memoryCache = memoryCache;
             this.distributedCache = distributedCache;
             this.fundooContext = fundooContext;
+            this.logger = logger;
         }
 
         [Authorize]
